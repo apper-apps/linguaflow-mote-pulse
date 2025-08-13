@@ -133,9 +133,43 @@ const [sourceText, setSourceText] = useState("");
         setIsRecording(false);
       };
       
-      setRecognition(recognitionInstance);
+setRecognition(recognitionInstance);
     }
+
+    // Cleanup previous recognition when language changes
+    return () => {
+      if (recognition) {
+        try {
+          if (recognition.state !== 'inactive') {
+            recognition.stop();
+          }
+          recognition.onresult = null;
+          recognition.onerror = null;
+          recognition.onend = null;
+        } catch (error) {
+          console.warn('Error cleaning up speech recognition:', error);
+        }
+      }
+    };
   }, [sourceLang]);
+
+  // Cleanup recognition on component unmount
+  useEffect(() => {
+    return () => {
+      if (recognition) {
+        try {
+          if (recognition.state !== 'inactive') {
+            recognition.stop();
+          }
+          recognition.onresult = null;
+          recognition.onerror = null;
+          recognition.onend = null;
+        } catch (error) {
+          console.warn('Error cleaning up speech recognition on unmount:', error);
+        }
+      }
+    };
+  }, [recognition]);
 
   // Auto-translate when source text changes (debounced)
   useEffect(() => {
