@@ -1,14 +1,15 @@
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
-import TextArea from "@/components/atoms/TextArea";
+import ApperIcon from "@/components/ApperIcon";
+import CharacterCounter from "@/components/molecules/CharacterCounter";
+import SwapButton from "@/components/molecules/SwapButton";
+import CopyButton from "@/components/molecules/CopyButton";
+import SpeakerButton from "@/components/molecules/SpeakerButton";
+import LanguageSelect from "@/components/molecules/LanguageSelect";
 import Button from "@/components/atoms/Button";
 import Label from "@/components/atoms/Label";
-import ApperIcon from "@/components/ApperIcon";
-import LanguageSelect from "@/components/molecules/LanguageSelect";
-import CharacterCounter from "@/components/molecules/CharacterCounter";
-import CopyButton from "@/components/molecules/CopyButton";
-import SwapButton from "@/components/molecules/SwapButton";
+import TextArea from "@/components/atoms/TextArea";
 import translationService from "@/services/api/translationService";
 
 const TranslationCard = ({ onTranslationComplete }) => {
@@ -294,10 +295,15 @@ const [sourceText, setSourceText] = useState("");
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <Label>Translation</Label>
-            <div className="flex items-center space-x-2">
+<div className="flex items-center space-x-2">
               {translatedText && (
                 <>
                   <CopyButton 
+                    text={translatedText}
+                    showLabel={true}
+                    variant="ghost"
+                  />
+                  <SpeakerButton
                     text={translatedText}
                     showLabel={true}
                     variant="ghost"
