@@ -1,0 +1,11 @@
+{
+  "Id": 1,
+  "darkMode": false,
+  "fontSize": 16,
+  "autoDetect": true,
+  "saveHistory": true,
+  "maxHistoryItems": 10,
+  "showCharCount": true,
+  "defaultSourceLang": "en",
+  "defaultTargetLang": "hi"
+}

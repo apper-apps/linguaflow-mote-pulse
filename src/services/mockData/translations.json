@@ -1,0 +1,29 @@
+[
+  {
+    "Id": 1,
+    "sourceText": "Hello, how are you?",
+    "translatedText": "नमस्ते, आप कैसे हैं?",
+    "sourceLang": "en",
+    "targetLang": "hi",
+    "timestamp": 1703847600000,
+    "charCount": 18
+  },
+  {
+    "Id": 2,
+    "sourceText": "Good morning",
+    "translatedText": "Buenos días",
+    "sourceLang": "en",
+    "targetLang": "es",
+    "timestamp": 1703847500000,
+    "charCount": 12
+  },
+  {
+    "Id": 3,
+    "sourceText": "Thank you very much",
+    "translatedText": "Merci beaucoup",
+    "sourceLang": "en",
+    "targetLang": "fr",
+    "timestamp": 1703847400000,
+    "charCount": 19
+  }
+]

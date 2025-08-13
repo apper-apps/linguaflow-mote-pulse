@@ -1,0 +1,114 @@
+[
+  {
+    "Id": 1,
+    "code": "en",
+    "name": "English",
+    "flag": "🇺🇸",
+    "nativeName": "English"
+  },
+  {
+    "Id": 2,
+    "code": "hi",
+    "name": "Hindi",
+    "flag": "🇮🇳",
+    "nativeName": "हिन्दी"
+  },
+  {
+    "Id": 3,
+    "code": "mr",
+    "name": "Marathi",
+    "flag": "🇮🇳",
+    "nativeName": "मराठी"
+  },
+  {
+    "Id": 4,
+    "code": "ta",
+    "name": "Tamil",
+    "flag": "🇮🇳",
+    "nativeName": "தமிழ்"
+  },
+  {
+    "Id": 5,
+    "code": "te",
+    "name": "Telugu",
+    "flag": "🇮🇳",
+    "nativeName": "తెలుగు"
+  },
+  {
+    "Id": 6,
+    "code": "ur",
+    "name": "Urdu",
+    "flag": "🇵🇰",
+    "nativeName": "اردو"
+  },
+  {
+    "Id": 7,
+    "code": "fr",
+    "name": "French",
+    "flag": "🇫🇷",
+    "nativeName": "Français"
+  },
+  {
+    "Id": 8,
+    "code": "es",
+    "name": "Spanish",
+    "flag": "🇪🇸",
+    "nativeName": "Español"
+  },
+  {
+    "Id": 9,
+    "code": "de",
+    "name": "German",
+    "flag": "🇩🇪",
+    "nativeName": "Deutsch"
+  },
+  {
+    "Id": 10,
+    "code": "pt",
+    "name": "Portuguese",
+    "flag": "🇵🇹",
+    "nativeName": "Português"
+  },
+  {
+    "Id": 11,
+    "code": "it",
+    "name": "Italian",
+    "flag": "🇮🇹",
+    "nativeName": "Italiano"
+  },
+  {
+    "Id": 12,
+    "code": "ja",
+    "name": "Japanese",
+    "flag": "🇯🇵",
+    "nativeName": "日本語"
+  },
+  {
+    "Id": 13,
+    "code": "ko",
+    "name": "Korean",
+    "flag": "🇰🇷",
+    "nativeName": "한국어"
+  },
+  {
+    "Id": 14,
+    "code": "zh",
+    "name": "Chinese",
+    "flag": "🇨🇳",
+    "nativeName": "中文"
+  },
+  {
+    "Id": 15,
+    "code": "ar",
+    "name": "Arabic",
+    "flag": "🇸🇦",
+    "nativeName": "العربية"
+  },
+  {
+    "Id": 16,
+    "code": "ru",
+    "name": "Russian",
+    "flag": "🇷🇺",
+    "nativeName": "Русский"
+  }
+]
