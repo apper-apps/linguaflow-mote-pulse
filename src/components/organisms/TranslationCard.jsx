@@ -12,13 +12,14 @@ import SwapButton from "@/components/molecules/SwapButton";
 import translationService from "@/services/api/translationService";
 
 const TranslationCard = ({ onTranslationComplete }) => {
-  const [sourceText, setSourceText] = useState("");
+const [sourceText, setSourceText] = useState("");
   const [translatedText, setTranslatedText] = useState("");
   const [sourceLang, setSourceLang] = useState("en");
   const [targetLang, setTargetLang] = useState("hi");
   const [isTranslating, setIsTranslating] = useState(false);
   const [error, setError] = useState("");
-
+  const [isRecording, setIsRecording] = useState(false);
+  const [recognition, setRecognition] = useState(null);
   const maxCharacters = 5000;
   const charCount = sourceText.length;
 
@@ -95,6 +96,45 @@ const TranslationCard = ({ onTranslationComplete }) => {
   const clearTranslatedText = () => {
     setTranslatedText("");
   };
+// Initialize speech recognition
+  useEffect(() => {
+    if (typeof window !== 'undefined' && ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognitionInstance = new SpeechRecognition();
+      
+      recognitionInstance.continuous = false;
+      recognitionInstance.interimResults = false;
+      recognitionInstance.lang = sourceLang;
+      
+      recognitionInstance.onstart = () => {
+        setIsRecording(true);
+        toast.info("Listening... Please speak now");
+      };
+      
+      recognitionInstance.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        setSourceText(prev => prev ? `${prev} ${transcript}` : transcript);
+        toast.success("Voice input captured successfully");
+      };
+      
+      recognitionInstance.onerror = (event) => {
+        setIsRecording(false);
+        if (event.error === 'not-allowed') {
+          toast.error("Microphone access denied. Please enable microphone permissions.");
+        } else if (event.error === 'no-speech') {
+          toast.warning("No speech detected. Please try again.");
+        } else {
+          toast.error(`Speech recognition error: ${event.error}`);
+        }
+      };
+      
+      recognitionInstance.onend = () => {
+        setIsRecording(false);
+      };
+      
+      setRecognition(recognitionInstance);
+    }
+  }, [sourceLang]);
 
   // Auto-translate when source text changes (debounced)
   useEffect(() => {
@@ -106,7 +146,6 @@ const TranslationCard = ({ onTranslationComplete }) => {
 
     return () => clearTimeout(timeoutId);
   }, [sourceText, sourceLang, targetLang, isTranslating]);
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -161,28 +200,54 @@ const TranslationCard = ({ onTranslationComplete }) => {
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <Label>Enter text to translate</Label>
-            <div className="flex items-center space-x-2">
+<div className="flex items-center justify-between">
               <CharacterCounter 
                 count={charCount}
                 maxCount={maxCharacters}
               />
-              {sourceText && (
-                <Button
-                  onClick={clearSourceText}
-                  variant="ghost"
-                  size="sm"
-                  className="text-gray-500 hover:text-error"
-                >
-                  <ApperIcon name="X" className="w-4 h-4" />
-                </Button>
-              )}
+              <div className="flex items-center space-x-2">
+                {/* Voice Input Button */}
+                {recognition && (
+                  <Button
+                    onClick={() => {
+                      if (isRecording) {
+                        recognition.stop();
+                      } else {
+                        recognition.start();
+                      }
+                    }}
+                    variant="ghost"
+                    size="sm"
+                    disabled={isTranslating}
+                    className={`text-gray-500 hover:text-primary transition-all duration-200 ${
+                      isRecording ? 'voice-recording text-primary' : ''
+                    }`}
+                    title={isRecording ? "Stop recording" : "Start voice input"}
+                  >
+                    <ApperIcon 
+                      name={isRecording ? "MicOff" : "Mic"} 
+                      className={`w-4 h-4 ${isRecording ? 'animate-pulse' : ''}`} 
+                    />
+                  </Button>
+                )}
+                {sourceText && (
+                  <Button
+                    onClick={clearSourceText}
+                    variant="ghost"
+                    size="sm"
+                    className="text-gray-500 hover:text-error"
+                  >
+                    <ApperIcon name="X" className="w-4 h-4" />
+                  </Button>
+                )}
+              </div>
             </div>
           </div>
           
           <TextArea
             value={sourceText}
             onChange={(e) => setSourceText(e.target.value)}
-            placeholder="Type or paste your text here..."
+            placeholder="Type, paste, or use voice input..."
             size="lg"
             error={!!error}
             className="min-h-[120px]"
