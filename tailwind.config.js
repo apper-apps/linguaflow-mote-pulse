@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: [
     "./index.html",
     "./src/**/*.{js,jsx,ts,tsx}",
@@ -38,7 +39,10 @@ export default {
           '0%': { transform: 'rotate(0deg)' },
           '100%': { transform: 'rotate(360deg)' },
         },
-      }
+},
+      transitionProperty: {
+        'theme': 'background-color, border-color, color, fill, stroke, opacity, box-shadow, transform',
+      },
     },
   },
   plugins: [],
