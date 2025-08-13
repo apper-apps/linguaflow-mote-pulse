@@ -3,7 +3,7 @@ import Select from "@/components/atoms/Select";
 import Label from "@/components/atoms/Label";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
-import languageService from "@/services/api/languageService";
+import * as languageService from "@/services/api/languageService";
 
 const LanguageSelect = ({ 
   label, 
