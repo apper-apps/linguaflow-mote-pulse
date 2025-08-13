@@ -67,6 +67,9 @@ searchLanguages: async (query) => {
     }
     
     // Default to English if no pattern matches
+// Default to English if no pattern matches
     return languagesData.find(lang => lang.code === 'en');
   }
 };
+
+export default languageService;
