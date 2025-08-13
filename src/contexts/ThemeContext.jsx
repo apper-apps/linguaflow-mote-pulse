@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { settingsService } from '@/services/api/settingsService';
-
+import settingsService from '@/services/api/settingsService';
 const ThemeContext = createContext();
 
 export const useTheme = () => {
