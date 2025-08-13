@@ -11,7 +11,7 @@ import Button from "@/components/atoms/Button";
 import Label from "@/components/atoms/Label";
 import TextArea from "@/components/atoms/TextArea";
 import translationService from "@/services/api/translationService";
-
+import languageService from '@/services/api/languageService';
 const TranslationCard = ({ onTranslationComplete }) => {
 const [sourceText, setSourceText] = useState("");
   const [translatedText, setTranslatedText] = useState("");
@@ -19,8 +19,41 @@ const [sourceText, setSourceText] = useState("");
   const [targetLang, setTargetLang] = useState("hi");
   const [isTranslating, setIsTranslating] = useState(false);
   const [error, setError] = useState("");
-  const [isRecording, setIsRecording] = useState(false);
+const [isRecording, setIsRecording] = useState(false);
   const [recognition, setRecognition] = useState(null);
+  const [detectedLanguage, setDetectedLanguage] = useState(null);
+
+  // Language detection effect
+  useEffect(() => {
+    let timeoutId;
+
+    const detectLanguage = async () => {
+      if (sourceText && sourceText.trim().length >= 3) {
+        try {
+          const detected = await languageService.detectLanguage(sourceText);
+          setDetectedLanguage(detected);
+        } catch (error) {
+          console.error('Language detection failed:', error);
+          setDetectedLanguage(null);
+        }
+      } else {
+        setDetectedLanguage(null);
+      }
+    };
+
+    // Debounce language detection
+    if (sourceText) {
+      timeoutId = setTimeout(detectLanguage, 500);
+    } else {
+      setDetectedLanguage(null);
+    }
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [sourceText]);
   const maxCharacters = 5000;
   const charCount = sourceText.length;
 
@@ -278,7 +311,24 @@ setRecognition(recognitionInstance);
               </div>
             </div>
           </div>
-          
+{/* Language Detection Indicator */}
+          {detectedLanguage && sourceText.trim() && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="flex items-center space-x-2 mb-3 px-3 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg"
+            >
+              <div className="flex items-center space-x-2">
+                <span className="text-lg">{detectedLanguage.flag}</span>
+                <span className="text-sm font-medium text-blue-700">
+                  Detected: {detectedLanguage.name}
+                </span>
+                <ApperIcon name="Eye" size={14} className="text-blue-500" />
+              </div>
+            </motion.div>
+          )}
+
           <TextArea
             value={sourceText}
             onChange={(e) => setSourceText(e.target.value)}
